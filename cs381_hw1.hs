@@ -14,7 +14,7 @@ Exercise 3 collaberators:
 -}
 
 -- Exercise 1
--- Representations (I geuss?)
+-- Representations (I guess?)
 type Bag a = [(a, Int)]
 
 -- We need eBag (empty bag) for functions that build up and return a bag
