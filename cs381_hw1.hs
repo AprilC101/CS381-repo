@@ -5,12 +5,11 @@ norm = sort . nub
 {-
 Homework 1
 
-Group Members: April Child, 
+Group Members: April Child, Michael Payne
 
-Exercise 1 collaberators:  
-
-Exercise 2 collaberators:  
-Exercise 3 collaberators: 
+Exercise 1 collaborators:  Michael Payne
+Exercise 2 collaborators:  Michael Payne
+Exercise 3 collaborators: 
 -}
 
 -- Exercise 1
@@ -118,7 +117,10 @@ detach :: Node -> Graph -> Graph
 detach n [] = []
 detach n ((x,y):xs)     | n == x || n == y      = detach n xs
                         | otherwise             = norm((x,y) : detach n xs)
-                        
-                        
+
+
 --(d) Define the function cyc :: Int -> Graph that creates a cycle of any given number. For example, cyc 4 =
---[(1,2),(2,3),(3,4),(4,1)]                         
+--[(1,2),(2,3),(3,4),(4,1)] 
+-- This one doesn't make any sense to me.  I guess since we don't have a graph as input, we just build our own cycle?
+cyc :: Int -> Graph
+cyc n =  norm([(x,x+1) | x <-[1..n], x <= n-1]) ++ [(n,1)]
