@@ -156,3 +156,15 @@ minX :: Shape -> Number
 minX (Circle (x,y) r) = x-r
 minX (Pt (x,_)) = x
 minX (Rect (x,y) _ _) = 3
+
+--(e) Define a function alignLeft that transforms one figure into another one in which all shapes have the same
+--minX coordinate but are otherwise unchanged.
+alignLeft :: Figure -> Figure
+alignLeft f = map (moveToX (minimumX (f))) f
+        where   minimumX [f] = minX f
+                minimumX (f:fs) = min (minX (f)) (minimumX (fs))
+
+moveToX :: Number -> Shape -> Shape
+moveToX n (Circle (x,y) r) = (Circle (x,y) (x-n))
+moveToX n (Pt (x,y)) = Pt (n,y)
+moveToX n (Rect (x,y) l1 l2 ) = (Rect (n, y) l1 l2)
