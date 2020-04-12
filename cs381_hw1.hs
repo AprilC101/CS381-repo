@@ -168,3 +168,11 @@ moveToX :: Number -> Shape -> Shape
 moveToX n (Circle (x,y) r) = (Circle (x,y) (x-n))
 moveToX n (Pt (x,y)) = Pt (n,y)
 moveToX n (Rect (x,y) l1 l2 ) = (Rect (n, y) l1 l2)
+
+--(f) Define a function inside that checks whether one shape is inside of another one, that is, whether the area
+--covered by the first shape is also covered by the second shape.
+inside :: Shape -> Shape -> Bool
+inside s (Rect (x,y) l1 l2) = distanceBBox (bbox(s)) <= distanceBBox(bbox(Rect (x,y) l1 l2))
+inside (Pt (x,y)) (Circle (x1,y1) r) = round(sqrt(fromIntegral((x1-x)^2 + (y1-y)^2))) <= r
+inside (Rect (x,y) l1 l2) (Circle (x1, y1) r) = round(sqrt(fromIntegral(l1^2 + l2^2))) <= r*2
+inside s (Pt (x,y)) = False
