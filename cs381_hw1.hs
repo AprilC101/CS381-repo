@@ -124,3 +124,35 @@ detach n ((x,y):xs)     | n == x || n == y      = detach n xs
 -- This one doesn't make any sense to me.  I guess since we don't have a graph as input, we just build our own cycle?
 cyc :: Int -> Graph
 cyc n =  norm([(x,x+1) | x <-[1..n], x <= n-1]) ++ [(n,1)]
+
+
+--Exercise 3
+type Number = Int
+type Point = (Number,Number)
+type Length = Number
+data Shape = Pt Point
+        | Circle Point Length
+        | Rect Point Length Length
+        deriving Show
+type Figure = [Shape]
+type BBox = (Point,Point)
+
+f = [Pt (4,4), Circle (5,5) 3, Rect (3,3) 7 2]
+
+ --(a) Define the function width that computes the width of a shape.
+width :: Shape -> Length
+width (Circle (x,y) r) = r*2
+width (Pt _) = 0
+width (Rect _ l _) = l
+
+--(b) Define the function bbox that computes the bounding box of a shape.
+bbox :: Shape -> BBox
+bbox (Circle (x,y) r) = ((x-r,y-r), (x+r,y+r))
+bbox (Pt (x,y)) = ((x,y),(x,y))
+bbox (Rect (x,y) l1 l2) = ((x,y),(l1+x,l2+y))
+
+--(c) Define the function minX that computes the minimum x coordinate of a shape.
+minX :: Shape -> Number
+minX (Circle (x,y) r) = x-r
+minX (Pt (x,_)) = x
+minX (Rect (x,y) _ _) = 3
