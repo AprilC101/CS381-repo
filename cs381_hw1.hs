@@ -176,3 +176,6 @@ inside s (Rect (x,y) l1 l2) = distanceBBox (bbox(s)) <= distanceBBox(bbox(Rect (
 inside (Pt (x,y)) (Circle (x1,y1) r) = round(sqrt(fromIntegral((x1-x)^2 + (y1-y)^2))) <= r
 inside (Rect (x,y) l1 l2) (Circle (x1, y1) r) = round(sqrt(fromIntegral(l1^2 + l2^2))) <= r*2
 inside s (Pt (x,y)) = False
+
+distanceBBox :: BBox -> Number
+distanceBBox ((x,y), (x1,y1)) = round(sqrt(fromIntegral((x1-x)^2 + (y1-y)^2)))
