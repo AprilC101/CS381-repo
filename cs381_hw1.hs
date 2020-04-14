@@ -157,6 +157,14 @@ minX (Circle (x,y) r) = x-r
 minX (Pt (x,_)) = x
 minX (Rect (x,y) _ _) = 3
 
+--(d) Define a function move that moves the position of a shape by a vector given by a point as its second argument.
+--I didn't make a helper function like addPt like he suggested, because it didn't seem necessary, which makes me think I'm misinterpreting
+-- the problem instructions
+move :: Shape -> Point -> Shape
+move (Circle (x,y) r) (x1,y1) = (Circle (x+x1,y+y1) r)
+move (Pt (x,y)) (x1, y1) = (Pt (x+x1, y+y1))
+move (Rect (x,y) l1 l2 ) (x1,y1) = (Rect (x + x1, y + y1) l1 l2)
+
 --(e) Define a function alignLeft that transforms one figure into another one in which all shapes have the same
 --minX coordinate but are otherwise unchanged.
 alignLeft :: Figure -> Figure
