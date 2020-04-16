@@ -192,6 +192,7 @@ moveToX n (Rect (x,y) l1 l2 ) = (Rect (n, y) l1 l2)
 -- I suppose there is the case of checking to see if a shape is inside a point, but that seems pointless.  
 inside :: Shape -> Shape -> Bool
 inside s (Rect (x,y) l1 l2) = compBBox (bbox s) (bbox (Rect (x,y) l1 l2))
+inside (Pt (x,y)) (Circle (x1, y1) r) = floor(sqrt(fromIntegral((x1-x)^2 + (y1-y)^2))) <= r
 inside (Circle (x, y) r) (Circle (x1, y1) r1) = compBBox (bbox (Circle (x, y) r)) (bbox (Circle (x1, y1) r1))
 inside s (Circle (x1, y1) r) = compBBox (bbox s) (bbox (squareCirc(Circle (x1,y1) r)))
 inside (Pt (x,y)) (Pt (x1,y1)) = x == x1 && y == y1
