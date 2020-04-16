@@ -180,15 +180,16 @@ moveToX n (Rect (x,y) l1 l2 ) = (Rect (n, y) l1 l2)
 --(f) Define a function inside that checks whether one shape is inside of another one, that is, whether the area
 --covered by the first shape is also covered by the second shape.
 -- There has to be a better way to do this, but I believe this hits all the cases and is ... functional?
--- Our first check takes any shape and looks to see if it falls in the space that the bounding box of a the second shape (which must
--- be a rectangle
+-- Our first check takes any shape and looks to see if it falls in the space that the bounding box of the second shape (which must
+-- be a rectangle) covers
 -- The second covers two circles.  It checks to see if the bounding box of the first circle is inside the bounding box of the second.
 -- The third case was the most difficult by far to do.  It handles the case of checking to see if a rectangle is inside a circle.
 -- We first calculate the dimensions of the largest square that you can fit into a circle and then pass that data to the bbox function
 -- to, well, get the bounding box of that square.  We then check to see if the bounding box of the rectangle (the first shape passed in)
 -- fits into the bounding box of the square that we just generated.
 -- The hardest part of all of this was generating dimensions of the square.  I had to do so much goofy stuff with type conversion to make this workable.
--- There is undoubtedly some better way to do this.
+-- And finally, we check to see if a point is inside another point (which is just checking to see if point a == point b).
+-- I suppose there is the case of checking to see if a shape is inside a point, but that seems pointless.  
 inside :: Shape -> Shape -> Bool
 inside s (Rect (x,y) l1 l2) = compBBox (bbox s) (bbox (Rect (x,y) l1 l2))
 inside (Circle (x, y) r) (Circle (x1, y1) r1) = compBBox (bbox (Circle (x, y) r)) (bbox (Circle (x1, y1) r1))
