@@ -155,7 +155,7 @@ bbox (Rect (x,y) l1 l2) = ((x,y),(l1+x,l2+y))
 minX :: Shape -> Number
 minX (Circle (x,y) r) = x-r
 minX (Pt (x,_)) = x
-minX (Rect (x,y) _ _) = 3
+minX (Rect (x,y) _ _) = x
 
 --(d) Define a function move that moves the position of a shape by a vector given by a point as its second argument.
 --I didn't make a helper function like addPt like he suggested, because it didn't seem necessary, which makes me think I'm misinterpreting
@@ -179,11 +179,28 @@ moveToX n (Rect (x,y) l1 l2 ) = (Rect (n, y) l1 l2)
 
 --(f) Define a function inside that checks whether one shape is inside of another one, that is, whether the area
 --covered by the first shape is also covered by the second shape.
+-- There has to be a better way to do this, but I believe this hits all the cases and is ... functional?
+-- Our first check takes any shape and looks to see if it falls in the space that the bounding box of a the second shape (which must
+-- be a rectangle
+-- The second covers two circles.  It checks to see if the bounding box of the first circle is inside the bounding box of the second.
+-- The third case was the most difficult by far to do.  It handles the case of checking to see if a rectangle is inside a circle.
+-- We first calculate the dimensions of the largest square that you can fit into a circle and then pass that data to the bbox function
+-- to, well, get the bounding box of that square.  We then check to see if the bounding box of the rectangle (the first shape passed in)
+-- fits into the bounding box of the square that we just generated.
+-- The hardest part of all of this was generating dimensions of the square.  I had to do so much goofy stuff with type conversion to make this workable.
+-- There is undoubtedly some better way to do this.
 inside :: Shape -> Shape -> Bool
-inside s (Rect (x,y) l1 l2) = distanceBBox (bbox(s)) <= distanceBBox(bbox(Rect (x,y) l1 l2))
-inside (Pt (x,y)) (Circle (x1,y1) r) = round(sqrt(fromIntegral((x1-x)^2 + (y1-y)^2))) <= r
-inside (Rect (x,y) l1 l2) (Circle (x1, y1) r) = round(sqrt(fromIntegral(l1^2 + l2^2))) <= r*2
-inside s (Pt (x,y)) = False
+inside s (Rect (x,y) l1 l2) = compBBox (bbox s) (bbox (Rect (x,y) l1 l2))
+inside (Circle (x, y) r) (Circle (x1, y1) r1) = compBBox (bbox (Circle (x, y) r)) (bbox (Circle (x1, y1) r1))
+inside s (Circle (x1, y1) r) = compBBox (bbox s) (bbox (squareCirc(Circle (x1,y1) r)))
+inside (Pt (x,y)) (Pt (x1,y1)) = x == x1 && y == y1
+
 
 distanceBBox :: BBox -> Number
 distanceBBox ((x,y), (x1,y1)) = round(sqrt(fromIntegral((x1-x)^2 + (y1-y)^2)))
+
+compBBox :: BBox -> BBox -> Bool
+compBBox ((x,y), (x1,y1)) ((r, t), (r1, t1)) = x1 <= r1 && y1 <= t1 && x >= r && y >= t
+
+squareCirc :: Shape -> Shape
+squareCirc (Circle (x1, y1) r) = Rect ((ceiling(fromIntegral(x1) - sqrt((fromIntegral(r^2))/2))),  (ceiling(fromIntegral(y1) - sqrt((fromIntegral(r^2))/2)))) (floor(2*sqrt((fromIntegral(r^2))/2))) (floor(2*sqrt((fromIntegral(r^2))/2)))
