@@ -5,11 +5,11 @@ norm = sort . nub
 {-
 Homework 1
 
-Group Members: April Child, Michael Payne
+Group Members: April Child, Michael Payne, Andrew White
 
-Exercise 1 collaborators:  Michael Payne, April Child
-Exercise 2 collaborators:  Michael Payne, April Child
-Exercise 3 collaborators:  Michael Payne, April Child
+Exercise 1 collaborators:  Michael Payne, April Child, Andrew White
+Exercise 2 collaborators:  Michael Payne, April Child, Andrew White
+Exercise 3 collaborators:  Michael Payne, April Child, Andrew White
 -}
 
 -- Exercise 1
