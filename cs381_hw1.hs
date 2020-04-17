@@ -198,8 +198,8 @@ inside s (Circle (x1, y1) r) = compBBox (bbox s) (bbox (squareCirc(Circle (x1,y1
 inside (Pt (x,y)) (Pt (x1,y1)) = x == x1 && y == y1
 
 
-distanceBBox :: BBox -> Number
-distanceBBox ((x,y), (x1,y1)) = round(sqrt(fromIntegral((x1-x)^2 + (y1-y)^2)))
+--distanceBBox :: BBox -> Number
+--distanceBBox ((x,y), (x1,y1)) = round(sqrt(fromIntegral((x1-x)^2 + (y1-y)^2)))
 
 compBBox :: BBox -> BBox -> Bool
 compBBox ((x,y), (x1,y1)) ((r, t), (r1, t1)) = x1 <= r1 && y1 <= t1 && x >= r && y >= t
