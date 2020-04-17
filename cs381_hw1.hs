@@ -196,8 +196,9 @@ inside (Pt (x,y)) (Circle (x1, y1) r) = floor(sqrt(fromIntegral((x1-x)^2 + (y1-y
 inside (Circle (x, y) r) (Circle (x1, y1) r1) = compBBox (bbox (Circle (x, y) r)) (bbox (Circle (x1, y1) r1))
 --inside s (Circle (x1, y1) r) = compBBox (bbox s) (bbox (squareCirc(Circle (x1,y1) r)))
 inside s (Circle (x1, y1) r) = rectInCirc(rectCirc(s)) (rectCirc(Circle (x1, y1) r))
-inside (Pt (x,y)) (Pt (x1,y1)) = x == x1 && y == y1
-inside s (Pt (x1,y1)) = False
+--inside (Pt (x,y)) (Pt (x1,y1)) = x == x1 && y == y1
+--inside s (Pt (x1,y1)) = False
+inside s (Pt (x, y)) = compBBox (bbox s) (bbox (Pt (x,y)))
 
 
 --distanceBBox :: BBox -> Number
