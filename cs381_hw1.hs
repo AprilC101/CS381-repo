@@ -7,9 +7,9 @@ Homework 1
 
 Group Members: April Child, Michael Payne
 
-Exercise 1 collaborators:  Michael Payne
-Exercise 2 collaborators:  Michael Payne
-Exercise 3 collaborators: 
+Exercise 1 collaborators:  Michael Payne, April Child
+Exercise 2 collaborators:  Michael Payne, April Child
+Exercise 3 collaborators:  Michael Payne, April Child
 -}
 
 -- Exercise 1
