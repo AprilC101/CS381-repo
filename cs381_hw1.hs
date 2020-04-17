@@ -194,8 +194,10 @@ inside :: Shape -> Shape -> Bool
 inside s (Rect (x,y) l1 l2) = compBBox (bbox s) (bbox (Rect (x,y) l1 l2))
 inside (Pt (x,y)) (Circle (x1, y1) r) = floor(sqrt(fromIntegral((x1-x)^2 + (y1-y)^2))) <= r
 inside (Circle (x, y) r) (Circle (x1, y1) r1) = compBBox (bbox (Circle (x, y) r)) (bbox (Circle (x1, y1) r1))
-inside s (Circle (x1, y1) r) = compBBox (bbox s) (bbox (squareCirc(Circle (x1,y1) r)))
+--inside s (Circle (x1, y1) r) = compBBox (bbox s) (bbox (squareCirc(Circle (x1,y1) r)))
+inside s (Circle (x1, y1) r) = rectInCirc(rectCirc(s)) (rectCirc(Circle (x1, y1) r))
 inside (Pt (x,y)) (Pt (x1,y1)) = x == x1 && y == y1
+inside s (Pt (x1,y1)) = False
 
 
 --distanceBBox :: BBox -> Number
@@ -204,5 +206,12 @@ inside (Pt (x,y)) (Pt (x1,y1)) = x == x1 && y == y1
 compBBox :: BBox -> BBox -> Bool
 compBBox ((x,y), (x1,y1)) ((r, t), (r1, t1)) = x1 <= r1 && y1 <= t1 && x >= r && y >= t
 
-squareCirc :: Shape -> Shape
-squareCirc (Circle (x1, y1) r) = Rect ((ceiling(fromIntegral(x1) - sqrt((fromIntegral(r^2))/2))),  (ceiling(fromIntegral(y1) - sqrt((fromIntegral(r^2))/2)))) (floor(2*sqrt((fromIntegral(r^2))/2))) (floor(2*sqrt((fromIntegral(r^2))/2)))
+--squareCirc :: Shape -> Shape
+--squareCirc (Circle (x1, y1) r) = Rect ((ceiling(fromIntegral(x1) - sqrt((fromIntegral(r^2))/2))),  (ceiling(fromIntegral(y1) - sqrt((fromIntegral(r^2))/2)))) (floor(2*sqrt((fromIntegral(r^2))/2))) (floor(2*sqrt((fromIntegral(r^2))/2)))
+
+rectCirc :: Shape -> (Double, Double, Double, Double)
+rectCirc (Circle (x, y) r) = (fromIntegral(x) - sqrt((fromIntegral(r^2))/2), fromIntegral(y) - sqrt((fromIntegral(r^2))/2), (fromIntegral(x) - sqrt((fromIntegral(r^2))/2))*(-2), (fromIntegral(y) - sqrt((fromIntegral(r^2))/2))*(-2))
+rectCirc (Rect (x,y) l1 l2) = (fromIntegral(x), fromIntegral(y), fromIntegral(l1), fromIntegral(l2))
+
+rectInCirc :: (Double, Double, Double, Double) -> (Double, Double, Double, Double) -> Bool
+rectInCirc (x, y, l1, l2) (x1, y2, ll1, ll2) = x >= x1 && y >= y2 && (x+l1) <= (x1+ll1) && (y+l2) <= (y2+ll2)
